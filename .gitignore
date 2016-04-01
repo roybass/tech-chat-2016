@@ -1,14 +1,3 @@
 target/
-<<<<<<< HEAD
 .mvn
 .idea
-=======
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
->>>>>>> c288fdd89959db2d1a54d52cd49ae4a09dc676e5
