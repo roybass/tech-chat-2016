@@ -25,14 +25,16 @@ public class ChatController {
     this.apiAiClient = apiAiClient;
     this.sphereClient = sphereClient;
   }
-
+  public Map api_query(final String input){
+    return apiAiClient.getResponse(input);
+  }
   @RequestMapping("/chat")
   @ResponseBody
   public Map handleChat(@RequestParam final String input) {
     final Map apiApiResponse = apiAiClient.getResponse(input);
     final Map sphereResponse = sphereClient.getRecommendtionByTerm(input);
-
     final HashMap<String, Map> result = new HashMap<>();
+
     result.put("API.AI", apiApiResponse);
     result.put("Sphere", sphereResponse);
     return result;

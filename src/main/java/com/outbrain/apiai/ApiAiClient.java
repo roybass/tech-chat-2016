@@ -18,9 +18,9 @@ import java.util.Map;
 @Component
 public class ApiAiClient {
 
-  private static final String SUBSCRIPTION_KEY = "4e33ba43-1932-4fa1-9fa7-18297a3b23b4";
-  private static final String CLIENT_ACCESS_TOKEN = "1f4cd4d94a0a4548b6a909f4ccd52074";
-  private static final String DEVELOPER_ACCESS_TOKEN = "d5af30f3d4104f9781bb8650177460e1";
+  private static final String SUBSCRIPTION_KEY = "";
+  private static final String CLIENT_ACCESS_TOKEN = "9067da86644242bfac98d1fc5a160731";
+  private static final String DEVELOPER_ACCESS_TOKEN = "68c46f52197e49e48a6653ec7844b5c6";
 
   private static final String baseUrl = "https://api.api.ai/v1/query?lang=en&v=20160314&q=";
   private final RestTemplate httpClient;

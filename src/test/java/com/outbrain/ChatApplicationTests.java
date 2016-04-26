@@ -13,6 +13,7 @@ public class ChatApplicationTests {
 
 	@Test
 	public void contextLoads() {
+
 	}
 
 }
