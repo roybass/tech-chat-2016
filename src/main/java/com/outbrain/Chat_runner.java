@@ -25,10 +25,10 @@ import java.util.regex.Pattern;
 
 public class Chat_runner {
 
-    public static void use_open_nlp_api(String question_string){
+    public static void pos_sentence(String question_string){
         String[] strings = question_string.split("'| +");
         try {
-            InputStream modelIn = new FileInputStream("C:\\Users\\ilya\\Desktop\\NLP CODE\\openNLP\\apache-opennlp-1.6.0-bin\\apache-opennlp-1.6.0\\bin\\en-pos-maxent.bin");
+            InputStream modelIn = new FileInputStream(".idea\\libraries\\en-pos-maxent.bin");
             POSModel model = new POSModel(modelIn);
             POSTaggerME tagger = new POSTaggerME(model);
             String tags[] = tagger.tag(strings);
@@ -42,6 +42,7 @@ public class Chat_runner {
 
 
         }catch(IOException e){
+            System.out.println("got error in pos_sentence");
             return;
         }
     }
@@ -105,7 +106,8 @@ public class Chat_runner {
         //String query_string = "Hi. What's the latest comment from trump on Mark zuckerbergs keynote Can you tell me the result of yesterday's UCL matches Real world stuff.   Whats going on with Donald trump Tell me about how the presidential election in America is going";
         //use_open_nlp_api(query_string);
         String query_string = "How about Bernie's 48k   rally in Manhattan last night";
-        use_open_nlp_api(query_string);
+        //devide_to_sentences(query_string);
+        pos_sentence(query_string);
         /*
         query_string = "Tell me about how the presidential election in America is going";
         use_open_nlp_api(query_string);
