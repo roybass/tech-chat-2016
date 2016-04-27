@@ -29,7 +29,7 @@ public class SphereClient {
   }
 
   public Map getRecommendtionByTerm(final String searchTerm) {
-    final URI uri = getUri("/recommendations/documents?limit=20&filter=titlePhrase:", searchTerm);
+    final URI uri = getUri("/recommendations/documents?limit=20&filter=title:", searchTerm);
     final RequestEntity requestEntity = new RequestEntity(getHeaders(), HttpMethod.GET, uri);
     final ResponseEntity<Map> response = httpClient.exchange(requestEntity, Map.class);
     return response.getBody();
