@@ -30,7 +30,7 @@ public class Chat_runner {
     public static void main(String[] args) {
         //String query_string = "Hi. What's the latest comment from trump on Mark zuckerbergs keynote Can you tell me the result of yesterday's UCL matches Real world stuff.   Whats going on with Donald trump Tell me about how the presidential election in America is going";
         //use_open_nlp_api(query_string);
-        String query_string = "How about Bernie's 48k   rally in Manhattan last night";
+        String query_string = "How about Bernie's ";
         //String[] sentences = devide_to_sentences(query_string);
         Object[] words_and_tags = NLP_processor.analyze_POS_sentence(query_string);
         String[] words = (String[])words_and_tags[0];
