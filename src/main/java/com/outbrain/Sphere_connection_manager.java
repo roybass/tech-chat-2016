@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class Sphere_connection_manager {
     // query sphere api and returns result
-    public static ArrayList query_sphere(String[] words){
+    public static ArrayList query_sphere(ArrayList words){
         String words_to_be_searched = String.join(" ",words);
         final HashMap<String, Map> result = new HashMap<>();
         SphereClient sphere_app = new SphereClient();
@@ -21,13 +21,31 @@ public class Sphere_connection_manager {
         result.put("sphere",sphere_response_map);
 
 
-        get_urls(sphere_response_map.get("items"));
-        return get_urls(sphere_response_map.get("items"));;
+        return get_urls(sphere_response_map.get("items"));
     }
-    // gets the relevant words and their tags processing the data.
-    // returns the urls found
-    public static String[] get_results_from_sphere(String[] words ,String[] tags){
-        return null;
+    /**
+     * input params:
+     *  @words - array of important words from the search query, the best is first
+     *  @tags - array containing the tags of the words
+     * output:
+     *  an ArrayList of urls which contains the best answer for the search query -
+     *  the one that contains the best( currently biggest words combinations
+     */
+    public static ArrayList get_results_from_sphere(String[] words ,String[] tags){
+        // first convert to array list so it will be easy to change array size
+        ArrayList list_of_words = new ArrayList();
+        for (int i = 0; i < words.length; i++){
+            list_of_words.add(words[i]);
+        }
+
+        ArrayList result = query_sphere(list_of_words);
+        while(result.size() == 0 && list_of_words.size() > 0){
+            System.out.println(list_of_words.toString());
+            list_of_words.remove(list_of_words.size() - 1);
+            result = query_sphere(list_of_words);
+
+        }
+        return result;
     }
     // get the relevant URL`s from argument(outbrain output)
     public static ArrayList get_urls(Object out_brain_result){
