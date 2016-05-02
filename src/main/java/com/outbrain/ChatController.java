@@ -32,11 +32,13 @@ public class ChatController {
   @ResponseBody
   public Map handleChat(@RequestParam final String input) {
     final Map apiApiResponse = apiAiClient.getResponse(input);
+
     final Map sphereResponse = sphereClient.getRecommendtionByTerm(input);
     final HashMap<String, Map> result = new HashMap<>();
 
     result.put("API.AI", apiApiResponse);
     result.put("Sphere", sphereResponse);
+
     return result;
   }
 }
