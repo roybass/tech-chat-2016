@@ -18,15 +18,10 @@ import java.util.Map;
 @Component
 public class SphereClient {
 
-  private static final String apiKey = "6110537c404b4657bfa02a4a784ee691";
+  private static final String apiKey = "2e0be4e2bd994ea68cd2dbf80ccdec99";
   private static final String SPHERE_BASE_URL = "https://sphere-dev.outbrain.com/api/v1/";
-  private static final String USER_ID = "b9151414-da85-4d93-a4d4-415ce4111a1b"; //UUID standard
+  private static final String USER_ID = "4bdc7b9c-1dfb-409f-ab6f-cbf3178d31c4";
 
-  /*  Roy's credentials
-  private static final String apiKey = "ccb15738cc9e4a508b9cdcc84cdabdaf";
-  private static final String SPHERE_BASE_URL = "https://sphere-dev.outbrain.com/api/v1/";
-  private static final String USER_ID = "f21afc32-0c1e-4771-b47e-daeb55803215";
-  */
   private final RestTemplate httpClient;
 
   public SphereClient() {
@@ -34,7 +29,7 @@ public class SphereClient {
   }
 
   public Map getRecommendtionByTerm(final String searchTerm) {
-    final URI uri = getUri("/recommendations/documents?limit=1&filter=titlePhrase:", searchTerm);
+    final URI uri = getUri("/recommendations/documents?limit=20&filter=titlePhrase:", searchTerm);
     final RequestEntity requestEntity = new RequestEntity(getHeaders(), HttpMethod.GET, uri);
     final ResponseEntity<Map> response = httpClient.exchange(requestEntity, Map.class);
     return response.getBody();

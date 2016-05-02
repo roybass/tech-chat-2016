@@ -25,7 +25,7 @@ public class NLP_processor {
             // After the model is loaded the SentenceDetectorME can be instantiated.
             SentenceDetectorME sentenceDetector = new SentenceDetectorME(model);
             String sentences[] = sentenceDetector.sentDetect(query_string);
-            System.out.println(sentences);
+            //System.out.println(sentences);
 
             return sentences;
         }
@@ -64,6 +64,8 @@ public class NLP_processor {
         String ptrn = ".*NN.*";
         Pattern ptrn_obj = Pattern.compile(ptrn);
         for (int i = 0 ; i < tags.length ; i++){
+            tags[i] += "_"+Integer.toString(i);
+            //System.out.println(tags[i]);
             Matcher m = ptrn_obj.matcher(tags[i]);
             if (m.find()){
                 index++;
@@ -103,16 +105,16 @@ public class NLP_processor {
     }
     // get value for each tag to enable sort
     public static int get_value_of_tag(String tag) {
-        if (tag.compareTo("NN") == 0) {
+        if (tag.indexOf("NN_") > -1) {
             return 4;
         }
-        if (tag.compareTo("NNP") == 0) {
+        if (tag.indexOf("NNP_") > -1) {
             return 2;
         }
-        if (tag.compareTo("NNS") == 0) {
+        if (tag.indexOf("NNS_") > -1) {
             return 3;
         }
-        if (tag.compareTo("NNPS") == 0) {
+        if (tag.indexOf("NNPS_") > -1) {
             return 1;
         }
         return 5;
