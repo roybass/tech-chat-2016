@@ -44,12 +44,7 @@ public class NLP_processor {
             POSTaggerME tagger = new POSTaggerME(model);
             String tags[] = tagger.tag(strings);
 
-            Object[] words_tags = create_noun_array(strings,tags);
-            strings = (String[])words_tags[0];
-            tags = (String[])words_tags[1];
-            /*for (int i = 0 ; i < tags.length ; i++){
-                System.out.println(strings[i] + "_" + tags[i]  + "\n");
-            }*/
+            Object[] words_tags = create_important_words_array(strings,tags);
             return words_tags;
 
         }catch(IOException e) {
@@ -59,13 +54,14 @@ public class NLP_processor {
     }
     // get the relevant noun words from the pos sentence
     // returns object containing 2 arrays
-    public static Object[] create_noun_array(String[] words , String[] tags){
+    public static Object[] create_important_words_array(String[] words , String[] tags){
+        //System.out.println(words.toString() + "hello\n");
         int index = 0;
-        String ptrn = ".*NN.*";
+        String ptrn = ".*NN.*|JJ.*|RB.*|VB.*";
         Pattern ptrn_obj = Pattern.compile(ptrn);
         for (int i = 0 ; i < tags.length ; i++){
             tags[i] += "_"+Integer.toString(i);
-            //System.out.println(tags[i]);
+
             Matcher m = ptrn_obj.matcher(tags[i]);
             if (m.find()){
                 index++;
@@ -79,6 +75,7 @@ public class NLP_processor {
             if (m.find()){
                 final_words[index] = words[i];
                 final_tags[index] = tags[i];
+                //System.out.println(tags[i]);
                 index++;
             }
         }
@@ -105,8 +102,8 @@ public class NLP_processor {
     }
     // get value for each tag to enable sort
     public static int get_value_of_tag(String tag) {
-        if (tag.indexOf("NN_") > -1) {
-            return 4;
+        if (tag.indexOf("NNPS_") > -1) {
+            return 1;
         }
         if (tag.indexOf("NNP_") > -1) {
             return 2;
@@ -114,10 +111,20 @@ public class NLP_processor {
         if (tag.indexOf("NNS_") > -1) {
             return 3;
         }
-        if (tag.indexOf("NNPS_") > -1) {
-            return 1;
+        if (tag.indexOf("NN_") > -1) {
+            return 4;
         }
-        return 5;
+        if (tag.indexOf("VB") > -1) {
+            return 5;
+        }
+        if (tag.indexOf("JJ") > -1) {
+            return 6;
+        }
+        if (tag.indexOf("RB") > -1 && tag.indexOf("WRB") == -1) {
+            return 7;
+        }
+
+        return 8;
     }
     /*public static Set<Set<String>> powerSet(Set<String> originalSet) {
         Set<Set<String>> sets = new HashSet<Set<String>>();

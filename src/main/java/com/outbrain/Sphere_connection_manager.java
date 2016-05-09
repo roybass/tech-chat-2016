@@ -42,10 +42,7 @@ public class Sphere_connection_manager {
         ArrayList sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
         ArrayList result = query_sphere(sorted_list_of_words);
         while(result.size() == 0 && list_of_words.size() > 0){
-            //System.out.println(sorted_list_of_words.toString());
-            //System.out.println(list_of_words.toString());
-            //System.out.println(list_of_tags.toString());
-            //System.out.println(list_of_tags.toString());
+
             list_of_words.remove(list_of_words.size() - 1);
             list_of_tags.remove(list_of_words.size() - 1);
             sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
