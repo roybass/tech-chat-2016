@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 /**
  * Created by Tal on 02/05/2016.
- * We use currently only first 1,000 lines
+ * We use currently only first 1000 lines
  */
 public class test_api_ai {
     public static void main(String args[]) {
