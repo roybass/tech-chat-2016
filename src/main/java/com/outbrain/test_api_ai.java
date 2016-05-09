@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 /**
  * Created by Tal on 02/05/2016.
+ * We use currently only first 1,000 lines
  */
 public class test_api_ai {
     public static void main(String args[]) {
@@ -34,12 +35,54 @@ public class test_api_ai {
                         ApiAiClient ai_app = new ApiAiClient();
                         Map ai_response_map = ai_app.getResponse(line);
                         HashMap result = (HashMap) ai_response_map.get("result");
-                        String action = result.get("action").toString();
-                        outputStreamWriter.write(action);
+
+                        String action;
+                        try{
+                            if(result.get("action").toString() != null)
+                            {
+                                action = result.get("action").toString();
+                                outputStreamWriter.write(action);
+
+                            }
+                        } catch (NullPointerException e){
+
+                        }
+                        outputStreamWriter.write("\t"); // action
+                        try{
+                            if(result.get("parameters").toString() != null)
+                            {
+                                String parameters = result.get("parameters").toString();
+                                outputStreamWriter.write(parameters);
+
+                            }
+                        } catch (NullPointerException e){
+
+                        }
+                        outputStreamWriter.write("\t"); // parameters
+
+                        HashMap fulfillment;
+                        try{
+                            fulfillment = (HashMap) result.get("fulfillment");
+                            if(fulfillment.get("speech").toString() != null)
+                            {
+                                String speech = fulfillment.get("speech").toString();
+                                outputStreamWriter.write(speech);
+                                outputStreamWriter.write("\t");
+                            }
+                            if(fulfillment.get("source").toString() != null)
+                            {
+                                String source = fulfillment.get("source").toString();
+                                outputStreamWriter.write(source);
+                                outputStreamWriter.write("\t");
+                            }
+                        } catch (NullPointerException e){
+
+                        }
 
                         outputStreamWriter.write("\n");
                     } catch (IOException e) {
                         e.printStackTrace();
+                        System.out.println("failed on request for line:"+line);
                     }
                 }
             });
