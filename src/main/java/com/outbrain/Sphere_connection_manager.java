@@ -28,16 +28,21 @@ public class Sphere_connection_manager {
      *  @words - array of important words from the search query, the best is first
      *  @tags - array containing the tags of the words
      * output:
-     *  an ArrayList of urls which contains the best answer for the search query -
+     *  an ArrayList of urls & words that were found in their description,
+     *  which contains the best answer for the search query -
      *  the one that contains the best( currently biggest words combinations
      */
-    public static ArrayList get_results_from_sphere(String[] words ,String[] tags){
+    public static Object[] get_results_from_sphere(String[] words ,String[] tags){
         // first convert to array list so it will be easy to change array size
         ArrayList list_of_words = new ArrayList();
         ArrayList list_of_tags = new ArrayList();
         for (int i = 0; i < words.length; i++){
             list_of_words.add(words[i]);
             list_of_tags.add(tags[i]);
+        }
+        while(list_of_words.size() > 10){
+            list_of_words.remove(list_of_words.size() - 1);
+            list_of_tags.remove(list_of_words.size() - 1);
         }
         ArrayList sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
         ArrayList result = query_sphere(sorted_list_of_words);
@@ -48,7 +53,7 @@ public class Sphere_connection_manager {
             sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
             result = query_sphere(sorted_list_of_words);
         }
-        return result;
+        return new Object[]{result,sorted_list_of_words};
     }
     // sort the string by its location in the original message to enable outBrain search
     public static ArrayList sort_by_location(ArrayList list_of_words_orig,ArrayList list_of_tags_orig){

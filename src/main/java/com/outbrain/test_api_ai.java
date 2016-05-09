@@ -1,10 +1,12 @@
 package com.outbrain;
 
 import com.outbrain.apiai.ApiAiClient;
+import com.outbrain.Chat_runner;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -78,6 +80,35 @@ public class test_api_ai {
                         } catch (NullPointerException e){
 
                         }
+
+                        //now get Sphere content
+                        ArrayList sphere_response = Chat_runner.get_Sphere_content(line);
+                        sphere_response.forEach(temp_response ->{
+                            Object[] response = (Object[])temp_response;
+                            ArrayList urls = (ArrayList) response[0];
+                            ArrayList words = (ArrayList) response[1];
+                            try{
+                                outputStreamWriter.write(words.toString());
+                                outputStreamWriter.write("\t");
+
+                                urls.forEach(url -> {
+                                    try{
+                                        outputStreamWriter.write(url.toString() + ";;;");
+                                    }catch (IOException e) {
+                                        e.printStackTrace();
+                                        System.out.println("failed on request for line:"+line);
+                                    }
+                                });
+                                outputStreamWriter.write("\t");
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                System.out.println("failed on request for line:"+line);
+                            }
+
+                        });
+
+
 
                         outputStreamWriter.write("\n");
                     } catch (IOException e) {

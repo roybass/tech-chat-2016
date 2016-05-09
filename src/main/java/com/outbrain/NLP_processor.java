@@ -37,13 +37,15 @@ public class NLP_processor {
     // analyze the sentence it gets as an argument with openNLP and create POS tagging
     // returns 2 arrays in Object first containing words from sentence second containing tags.
     public static Object[] analyze_POS_sentence(String question_string){
-        String[] strings = question_string.split("'| +");
+        String[] strings = question_string.split("'|\\W+");
         try {
             InputStream modelIn = new FileInputStream("src\\main\\java\\open_nlp_libs\\en-pos-maxent.bin");
             POSModel model = new POSModel(modelIn);
             POSTaggerME tagger = new POSTaggerME(model);
             String tags[] = tagger.tag(strings);
-
+            /*for (int i = 0;i<tags.length; i++){
+                System.out.println(strings[i] + tags[i].toString());
+            }*/
             Object[] words_tags = create_important_words_array(strings,tags);
             return words_tags;
 
@@ -57,7 +59,7 @@ public class NLP_processor {
     public static Object[] create_important_words_array(String[] words , String[] tags){
         //System.out.println(words.toString() + "hello\n");
         int index = 0;
-        String ptrn = ".*NN.*|JJ.*|RB.*|VB.*";
+        String ptrn = ".*NN.*|JJ.*|VB.*";
         Pattern ptrn_obj = Pattern.compile(ptrn);
         for (int i = 0 ; i < tags.length ; i++){
             tags[i] += "_"+Integer.toString(i);
