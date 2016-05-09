@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class Chat_runner {
     public static void main(String[] args) {
-        //String query_string = "Hi. What's the latest comment from trump on Mark zuckerbergs keynote Can you tell me the result of yesterday's UCL matches Real world stuff.   Whats going on with Donald trump Tell me about how the presidential election in America is going";
+        //String query_string = "Hi. What's the latest comment from trump on Mark zuckerbergs test keynote Can you tell me the result of yesterday's UCL matches Real world stuff.   Whats going on with Donald trump Tell me about how the presidential election in America is going";
         //use_open_nlp_api(query_string);
         String query_string = "Israel Palestine";
         String[] sentences = NLP_processor.devide_to_sentences(query_string);
