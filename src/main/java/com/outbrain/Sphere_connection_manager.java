@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by ilya on 4/27/2016.
+ * Created by ilya on 4/27/2016. ssssssss
  */
 public class Sphere_connection_manager {
     // query sphere api and returns result
