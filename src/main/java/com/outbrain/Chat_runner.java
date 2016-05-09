@@ -31,7 +31,6 @@ public class Chat_runner {
 
     }
     public static ArrayList get_Sphere_content(String query_string){
-        //dsdsd
         String[] sentences = NLP_processor.devide_to_sentences(query_string);
         ArrayList results_for_sentences = new ArrayList();
         for (String sentence : sentences) {

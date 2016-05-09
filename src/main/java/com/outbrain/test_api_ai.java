@@ -17,8 +17,8 @@ import java.util.stream.Stream;
  */
 public class test_api_ai {
     public static void main(String args[]) {
-        String inputFileName = "C:\\Users\\Tal\\Technion\\simesterF\\Industrial_project\\test_api_ai.csv";
-        String outputFileName = "C:\\Users\\Tal\\Technion\\simesterF\\Industrial_project\\test_api_ai_result.csv";
+        String inputFileName = "src\\main\\java\\open_nlp_libs\\test_api_ai.csv";
+        String outputFileName = "src\\main\\java\\open_nlp_libs\\test_api_ai_result.csv";
 
 
         try {
