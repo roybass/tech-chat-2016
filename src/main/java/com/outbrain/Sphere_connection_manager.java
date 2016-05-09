@@ -42,14 +42,15 @@ public class Sphere_connection_manager {
         }
         while(list_of_words.size() > 10){
             list_of_words.remove(list_of_words.size() - 1);
-            list_of_tags.remove(list_of_words.size() - 1);
+            list_of_tags.remove(list_of_tags.size() - 1);
         }
         ArrayList sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
         ArrayList result = query_sphere(sorted_list_of_words);
         while(result.size() == 0 && list_of_words.size() > 0){
 
+            //System.out.println(list_of_words.toString() + "\n" + list_of_tags.toString());
             list_of_words.remove(list_of_words.size() - 1);
-            list_of_tags.remove(list_of_words.size() - 1);
+            list_of_tags.remove(list_of_tags.size() - 1);
             sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
             result = query_sphere(sorted_list_of_words);
         }

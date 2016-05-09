@@ -37,7 +37,7 @@ public class NLP_processor {
     // analyze the sentence it gets as an argument with openNLP and create POS tagging
     // returns 2 arrays in Object first containing words from sentence second containing tags.
     public static Object[] analyze_POS_sentence(String question_string){
-        String[] strings = question_string.split("'|\\W+");
+        String[] strings = question_string.split("\\W+|'\\w*");
         try {
             InputStream modelIn = new FileInputStream("src\\main\\java\\open_nlp_libs\\en-pos-maxent.bin");
             POSModel model = new POSModel(modelIn);
