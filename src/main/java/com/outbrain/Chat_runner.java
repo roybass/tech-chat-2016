@@ -28,7 +28,12 @@ import java.util.regex.Pattern;
 
 public class Chat_runner {
     public static void main(String[] args) {
-
+        ArrayList test = get_Sphere_content("Whos winning the presidential election in pennsylvania");
+        if(test == null) {
+            System.out.println("null\n");
+            return;
+        }
+        System.out.println(test.toString());
     }
     public static ArrayList get_Sphere_content(String query_string){
         String[] sentences = NLP_processor.devide_to_sentences(query_string);
@@ -38,9 +43,13 @@ public class Chat_runner {
             String[] words = (String[]) words_and_tags[0];
             String[] tags = (String[]) words_and_tags[1];
             Object[] urls_and_word_list = Sphere_connection_manager.get_results_from_sphere(words, tags);
-            results_for_sentences.add(urls_and_word_list);
+            if (urls_and_word_list != null)
+                results_for_sentences.add(urls_and_word_list);
 
         }
+
+        if (results_for_sentences.size() <= 0)
+            return null;
         return results_for_sentences;
     }
 

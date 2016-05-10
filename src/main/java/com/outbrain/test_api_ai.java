@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  */
 public class test_api_ai {
     public static void main(String args[]) {
-        String inputFileName = "src\\main\\java\\open_nlp_libs\\test_api_ai.csv";
+        String inputFileName = "src\\main\\java\\open_nlp_libs\\test_api_ai_orig.csv";
         String outputFileName = "src\\main\\java\\open_nlp_libs\\test_api_ai_result.csv";
 
 
@@ -28,7 +28,7 @@ public class test_api_ai {
             Writer outputStreamWriter = new OutputStreamWriter(myOutputStream);
 
             myInputStream.forEach(line ->{
-                if (line.length() < 254){
+                if (line.length() < 254 && !line.contains("\"")){
                     try {
                         outputStreamWriter.write(line);
 
@@ -83,30 +83,34 @@ public class test_api_ai {
 
                         //now get Sphere content
                         ArrayList sphere_response = Chat_runner.get_Sphere_content(line);
-                        sphere_response.forEach(temp_response ->{
-                            Object[] response = (Object[])temp_response;
-                            ArrayList urls = (ArrayList) response[0];
-                            ArrayList words = (ArrayList) response[1];
-                            try{
-                                outputStreamWriter.write(words.toString());
-                                outputStreamWriter.write("\t");
+                        if (sphere_response == null){
+                            outputStreamWriter.write("no results for line: " + line + "\t\n");
 
-                                urls.forEach(url -> {
-                                    try{
-                                        outputStreamWriter.write(url.toString() + ";;;");
-                                    }catch (IOException e) {
-                                        e.printStackTrace();
-                                        System.out.println("failed on request for line:"+line);
-                                    }
-                                });
-                                outputStreamWriter.write("\t");
+                        }else
+                            sphere_response.forEach(temp_response ->{
+                                Object[] response = (Object[])temp_response;
+                                ArrayList urls = (ArrayList) response[0];
+                                ArrayList words = (ArrayList) response[1];
+                                try{
+                                    outputStreamWriter.write(words.toString());
+                                    outputStreamWriter.write("\t");
 
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                System.out.println("failed on request for line:"+line);
-                            }
+                                    urls.forEach(url -> {
+                                        try{
+                                            outputStreamWriter.write(url.toString() + ";;;");
+                                        }catch (IOException e) {
+                                            e.printStackTrace();
+                                            System.out.println("failed on request for line:"+line);
+                                        }
+                                    });
+                                    outputStreamWriter.write("\t");
 
-                        });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    System.out.println("failed on request for line:"+line);
+                                }
+
+                            });
 
 
 

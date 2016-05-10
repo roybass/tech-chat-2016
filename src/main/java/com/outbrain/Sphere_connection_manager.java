@@ -15,6 +15,7 @@ public class Sphere_connection_manager {
     // query sphere api and returns result
     public static ArrayList query_sphere(ArrayList words){
         String words_to_be_searched = String.join(" ",words);
+        System.out.println("search pharse:" + words_to_be_searched + "\n");
         final HashMap<String, Map> result = new HashMap<>();
         SphereClient sphere_app = new SphereClient();
         Map sphere_response_map = sphere_app.getRecommendtionByTerm(words_to_be_searched);
@@ -33,6 +34,8 @@ public class Sphere_connection_manager {
      *  the one that contains the best( currently biggest words combinations
      */
     public static Object[] get_results_from_sphere(String[] words ,String[] tags){
+        if(words.length <=0)
+            return null;
         // first convert to array list so it will be easy to change array size
         ArrayList list_of_words = new ArrayList();
         ArrayList list_of_tags = new ArrayList();

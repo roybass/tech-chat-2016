@@ -62,6 +62,7 @@ public class NLP_processor {
         String ptrn = ".*NN.*|JJ.*|VB.*";
         Pattern ptrn_obj = Pattern.compile(ptrn);
         for (int i = 0 ; i < tags.length ; i++){
+
             tags[i] += "_"+Integer.toString(i);
 
             Matcher m = ptrn_obj.matcher(tags[i]);
@@ -75,6 +76,8 @@ public class NLP_processor {
         for (int i = 0 ; i < tags.length ; i++){
             Matcher m = ptrn_obj.matcher(tags[i]);
             if (m.find()){
+                if (check_if_empty(words[i]))
+                    continue;
                 final_words[index] = words[i];
                 final_tags[index] = tags[i];
                 //System.out.println(tags[i]);
@@ -84,6 +87,15 @@ public class NLP_processor {
 
         return sort_arrays(final_words,final_tags);// new Object[]{final_words,final_tags};
 
+    }
+    public static boolean check_if_empty(String string){
+        String ptrn = "^\\s*$";
+        Pattern ptrn_obj = Pattern.compile(ptrn);
+        Matcher m = ptrn_obj.matcher(string);
+        if (m.find()){
+            return true;
+        }
+        return false;
     }
     // sort the pos elements
     public static Object[] sort_arrays(String[] words ,String[] tags){

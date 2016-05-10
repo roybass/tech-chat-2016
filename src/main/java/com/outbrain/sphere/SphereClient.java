@@ -29,6 +29,8 @@ public class SphereClient {
   }
 
   public Map getRecommendtionByTerm(final String searchTerm) {
+
+    System.out.println("sphere query searchTerm : "+searchTerm);
     final URI uri = getUri("/recommendations/documents?limit=20&filter=titlePhrase:", searchTerm);
     //System.out.println(searchTerm );
 
