@@ -89,6 +89,7 @@ public class NLP_processor {
 
     }
     public static boolean check_if_empty(String string){
+
         String ptrn = "^\\s*$";
         Pattern ptrn_obj = Pattern.compile(ptrn);
         Matcher m = ptrn_obj.matcher(string);

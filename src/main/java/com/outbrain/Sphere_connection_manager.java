@@ -15,7 +15,7 @@ public class Sphere_connection_manager {
     // query sphere api and returns result
     public static ArrayList query_sphere(ArrayList words){
         String words_to_be_searched = String.join(" ",words);
-        System.out.println("search pharse:" + words_to_be_searched + "\n");
+        System.out.println("search pharse:" + words_to_be_searched + " --- size of array:"+ words.size() + "\n");
         final HashMap<String, Map> result = new HashMap<>();
         SphereClient sphere_app = new SphereClient();
         Map sphere_response_map = sphere_app.getRecommendtionByTerm(words_to_be_searched);
@@ -43,13 +43,25 @@ public class Sphere_connection_manager {
             list_of_words.add(words[i]);
             list_of_tags.add(tags[i]);
         }
-        while(list_of_words.size() > 10){
+        while(list_of_words.size() > 6){
             list_of_words.remove(list_of_words.size() - 1);
             list_of_tags.remove(list_of_tags.size() - 1);
         }
+        // all subarrays described in a binary number 1111 all 4 exist 1101 3rd element doesnt exist and the rest do
         ArrayList sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
-        ArrayList result = query_sphere(sorted_list_of_words);
-        while(result.size() == 0 && list_of_words.size() > 0){
+        //ArrayList result = query_sphere(sorted_list_of_words);
+        ArrayList result = new ArrayList();
+        for (int array_content = (int)Math.pow(2,list_of_words.size()) - 1; array_content > 0 && result.size() == 0;array_content--){
+            ArrayList sub_list = get_sub_list(list_of_words,array_content);
+            ArrayList sub_list_tags = get_sub_list(list_of_tags,array_content);
+            sorted_list_of_words = sort_by_location(sub_list,sub_list_tags);
+            result = query_sphere(sorted_list_of_words);
+            //System.out.println(array_content);
+            //System.out.println(sub_list.toString());
+        }
+
+    /*
+        while(result.size() == 0 && list_of_wo1rds.size() > 1){
 
             //System.out.println(list_of_words.toString() + "\n" + list_of_tags.toString());
             list_of_words.remove(list_of_words.size() - 1);
@@ -57,9 +69,35 @@ public class Sphere_connection_manager {
             sorted_list_of_words = sort_by_location(list_of_words,list_of_tags);
             result = query_sphere(sorted_list_of_words);
         }
+        */
         return new Object[]{result,sorted_list_of_words};
     }
     // sort the string by its location in the original message to enable outBrain search
+    public static ArrayList get_sub_list(ArrayList list_of_words_orig,int array_contents){
+        ArrayList list_of_words = new ArrayList();
+        //System.out.println("got here");
+        for (int index = 1;index<=list_of_words_orig.size();index++) {
+            if (check_if_binary_on(array_contents, index - 1)) {
+                list_of_words.add(list_of_words_orig.get(list_of_words_orig.size() - index));
+            }
+
+        }
+        //System.out.println("test current number :" + array_contents);
+        //System.out.println(list_of_words_orig.toString());
+        //System.out.println(list_of_words.toString());
+        return list_of_words;
+    }
+    public static boolean check_if_binary_on(int num,int index){
+        int binary[] = new int[20];
+        int cur_index = 0;
+        while(num > 0){
+            binary[cur_index++] = num%2;
+            num = num/2;
+        }
+        if(binary[index] == 1)
+            return true;
+        return false;
+    }
     public static ArrayList sort_by_location(ArrayList list_of_words_orig,ArrayList list_of_tags_orig){
         ArrayList list_of_words = new ArrayList();
         ArrayList list_of_tags = new ArrayList();
