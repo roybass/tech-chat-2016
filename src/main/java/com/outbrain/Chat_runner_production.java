@@ -1,4 +1,4 @@
-package com.outbrain.sphere;
+package com.outbrain;
 
 import com.outbrain.NLP_processor;
 import com.outbrain.Sphere_connection_manager;
