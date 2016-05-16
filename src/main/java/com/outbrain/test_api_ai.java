@@ -82,6 +82,7 @@ public class test_api_ai {
                         }
 
                         //now get Sphere content
+                        System.out.println("current line query; "+line);
                         ArrayList sphere_response = Chat_runner.get_Sphere_content(line);
                         if (sphere_response == null){
                             outputStreamWriter.write("no results for line: " + line + "\t\n");

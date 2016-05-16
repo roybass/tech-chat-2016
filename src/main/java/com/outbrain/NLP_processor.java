@@ -5,11 +5,15 @@ import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Created by ilya on 4/27/2016.
@@ -34,10 +38,47 @@ public class NLP_processor {
         }
         return null;
     }
+    // get unimportant words from dictionry and check if they contain words  in the input
+    // all words in input that are contained in the dictionary are deleted
+    public static String[] delete_words_from_dict(String[] words){
+        String inputFileName = "src\\main\\java\\open_nlp_libs\\ignore_words_dict.txt";
+        ArrayList<String> sub_list_of_important_words = new ArrayList<String>();
+        try {
+            FileInputStream fs = new FileInputStream(inputFileName);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+            String firstLine = br.readLine();
+            String[] to_delete_words = firstLine.split(",");
+            Map to_delete_map = new HashMap();
+            for (String word : to_delete_words){
+                to_delete_map.put(word.toLowerCase(),"1");
+            }
+
+            for (String word : words){
+                String lower_case_word = word;
+
+                if(!to_delete_map.containsKey(lower_case_word.toLowerCase())){
+                    sub_list_of_important_words.add(word);
+                }
+            }
+        }catch(Exception ex){
+            System.out.println("couldnt open and read line from file: " + inputFileName);
+            ex.printStackTrace();
+        }
+
+        String[] important_words = new String[sub_list_of_important_words.size()];
+        important_words = sub_list_of_important_words.toArray(important_words);
+        return important_words;
+
+    }
     // analyze the sentence it gets as an argument with openNLP and create POS tagging
     // returns 2 arrays in Object first containing words from sentence second containing tags.
     public static Object[] analyze_POS_sentence(String question_string){
         String[] strings = question_string.split("\\W+|'\\w*");
+        if(strings.length == 0) {
+            System.out.println("this sentence contains zero words");
+            return null;
+        }
+        strings = delete_words_from_dict(strings);
         try {
             InputStream modelIn = new FileInputStream("src\\main\\java\\open_nlp_libs\\en-pos-maxent.bin");
             POSModel model = new POSModel(modelIn);
@@ -62,9 +103,10 @@ public class NLP_processor {
         String ptrn = ".*NN.*|JJ.*|VB.*";
         Pattern ptrn_obj = Pattern.compile(ptrn);
         for (int i = 0 ; i < tags.length ; i++){
-
-            tags[i] += "_"+Integer.toString(i);
-
+            if (check_if_empty(words[i]))
+                continue;
+            //tags[i] += "_"+Integer.toString(i);
+            //System.out.println(tags[i]);
             Matcher m = ptrn_obj.matcher(tags[i]);
             if (m.find()){
                 index++;
@@ -80,6 +122,7 @@ public class NLP_processor {
                     continue;
                 final_words[index] = words[i];
                 final_tags[index] = tags[i];
+                //System.out.println(words[i]);
                 //System.out.println(tags[i]);
                 index++;
             }
@@ -88,6 +131,7 @@ public class NLP_processor {
         return sort_arrays(final_words,final_tags);// new Object[]{final_words,final_tags};
 
     }
+    //checks if the string contains only white space
     public static boolean check_if_empty(String string){
 
         String ptrn = "^\\s*$";
@@ -100,8 +144,11 @@ public class NLP_processor {
     }
     // sort the pos elements
     public static Object[] sort_arrays(String[] words ,String[] tags){
+        //System.out.println(tags.length);
         for (int i = 0 ; i < tags.length ; i++){
             for (int y = 0 ; y < tags.length ; y++){
+                //System.out.println("sort: " + tags[i] + "," + tags[y]);
+
                 if(get_value_of_tag(tags[i])<get_value_of_tag(tags[y]))
                 {
                     String temp= tags[y];
