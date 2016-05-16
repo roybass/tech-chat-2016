@@ -105,7 +105,7 @@ public class NLP_processor {
         for (int i = 0 ; i < tags.length ; i++){
             if (check_if_empty(words[i]))
                 continue;
-            //tags[i] += "_"+Integer.toString(i);
+            tags[i] += "_"+Integer.toString(i);
             //System.out.println(tags[i]);
             Matcher m = ptrn_obj.matcher(tags[i]);
             if (m.find()){
@@ -164,6 +164,7 @@ public class NLP_processor {
     }
     // get value for each tag to enable sort
     public static int get_value_of_tag(String tag) {
+        //System.out.println(tag);
         if (tag.indexOf("NNPS_") > -1) {
             return 1;
         }

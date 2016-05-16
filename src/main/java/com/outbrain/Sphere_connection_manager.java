@@ -43,6 +43,7 @@ public class Sphere_connection_manager {
             list_of_words.add(words[i]);
             list_of_tags.add(tags[i]);
         }
+        System.out.println(list_of_words.toString());
         while(list_of_words.size() > 6){
             list_of_words.remove(list_of_words.size() - 1);
             list_of_tags.remove(list_of_tags.size() - 1);

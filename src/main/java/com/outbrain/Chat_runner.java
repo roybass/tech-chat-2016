@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class Chat_runner {
     public static void main(String[] args) {
-        ArrayList test = get_Sphere_content("#DemocracySpring or US Capitol protests citizens united");
+        ArrayList test = get_Sphere_content("I want to learn more about the presidential elections");
         if(test == null) {
             System.out.println("null\n");
             return;
