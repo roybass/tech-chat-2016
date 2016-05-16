@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Chat_runner {
+public class Chat_runner_dev {
     public static void main(String[] args) {
         ArrayList test = get_Sphere_content("I want to learn more about the presidential elections");
         if(test == null) {

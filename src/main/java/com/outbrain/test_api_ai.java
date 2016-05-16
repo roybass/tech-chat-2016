@@ -1,7 +1,6 @@
 package com.outbrain;
 
 import com.outbrain.apiai.ApiAiClient;
-import com.outbrain.Chat_runner;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -83,9 +82,9 @@ public class test_api_ai {
 
                         //now get Sphere content
                         System.out.println("current line query; "+line);
-                        ArrayList sphere_response = Chat_runner.get_Sphere_content(line);
+                        ArrayList sphere_response = Chat_runner_dev.get_Sphere_content(line);
                         if (sphere_response == null){
-                            outputStreamWriter.write("no results for line: " + line + "\t\n");
+                            outputStreamWriter.write("no results for line: " + line + "\t");
 
                         }else
                             sphere_response.forEach(temp_response ->{
