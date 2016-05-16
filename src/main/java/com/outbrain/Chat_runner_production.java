@@ -2,8 +2,11 @@ package com.outbrain;
 
 import com.outbrain.NLP_processor;
 import com.outbrain.Sphere_connection_manager;
+import com.outbrain.apiai.ApiAiClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,13 +16,33 @@ import java.util.regex.Pattern;
 public class Chat_runner_production {
     public static void main(String[] args) {
     }
-    // TODO return only the content to be sent to the user
+    public static String check_with_api_ai(String string){
+        ApiAiClient ai_app = new ApiAiClient();
+        Map ai_response_map = ai_app.getResponse(string);
+        HashMap result = (HashMap) ai_response_map.get("result");
+        if(result.get("action").toString().indexOf("smalltalk") >= 0){
+            HashMap fulfillment;
+            try{
+                fulfillment = (HashMap) result.get("fulfillment");
+                if(fulfillment.get("speech").toString() != null)
+                   return fulfillment.get("speech").toString();
+            } catch (NullPointerException e){}
+        }
+        return "";
+    }
     public static String get_Sphere_content(String query_string){
-        String result = new String();
-        result = "the results we found:\n";
+        if(query_string.length() >254){
+            return "your message is too long... try something shorter :-)\n";
+        }
+        String api_ai_res = check_with_api_ai(query_string);
+        if(api_ai_res !="")
+            return api_ai_res;
+
         if(!check_if_relevant(query_string)){
             return "please don`t give me urls, ask me something else\n";
         }
+        String result = new String();
+        result = "the results we found:\n";
         String[] sentences = NLP_processor.devide_to_sentences(query_string);
         for (String sentence : sentences) {
             if(NLP_processor.analyze_POS_sentence(sentence) != null) {
@@ -39,7 +62,7 @@ public class Chat_runner_production {
             }
         }
 
-        if (result.length() <= 20) {
+        if (result.length() <= 30) {
             return "I`m sorry, I couldn`t find any relevant content\n";
         }
 
