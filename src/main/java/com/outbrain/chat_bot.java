@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * Created by ilya on 5/16/2016.
+ * Created by ilya on 5/16/2016. s
  */
 public class chat_bot {
     public static void main(String[] args) {
