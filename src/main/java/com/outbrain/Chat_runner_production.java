@@ -20,15 +20,24 @@ public class Chat_runner_production {
         ApiAiClient ai_app = new ApiAiClient();
         Map ai_response_map = ai_app.getResponse(string);
         HashMap result = (HashMap) ai_response_map.get("result");
-        if(result.get("action").toString().indexOf("smalltalk") >= 0){
+        //System.out.println(result.get("action").toString());
+        if(relevant_action(result.get("action").toString())){
             HashMap fulfillment;
             try{
                 fulfillment = (HashMap) result.get("fulfillment");
+                //System.out.println(fulfillment.get("speech").toString() + "got here");
                 if(fulfillment.get("speech").toString() != null)
-                   return fulfillment.get("speech").toString();
+                   return fulfillment.get("speech").toString() + " ";
             } catch (NullPointerException e){}
         }
         return "";
+    }
+    public static boolean relevant_action(String action){
+        if(action.indexOf("smalltalk")>=0)
+            return true;
+        if(action.indexOf("name.save")>=0)
+            return true;
+        return false;
     }
     public static String get_Sphere_content(String query_string){
         if(query_string.length() >254){
