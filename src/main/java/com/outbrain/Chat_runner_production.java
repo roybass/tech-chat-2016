@@ -20,12 +20,10 @@ public class Chat_runner_production {
         ApiAiClient ai_app = new ApiAiClient();
         Map ai_response_map = ai_app.getResponse(string);
         HashMap result = (HashMap) ai_response_map.get("result");
-        //System.out.println(result.get("action").toString());
         if(relevant_action(result.get("action").toString())){
             HashMap fulfillment;
             try{
                 fulfillment = (HashMap) result.get("fulfillment");
-                //System.out.println(fulfillment.get("speech").toString() + "got here");
                 if(fulfillment.get("speech").toString() != null)
                    return fulfillment.get("speech").toString() + " ";
             } catch (NullPointerException e){}
@@ -47,9 +45,9 @@ public class Chat_runner_production {
         if(api_ai_res !="")
             return api_ai_res;
 
-        if(!check_if_relevant(query_string)){
+        if(!check_if_relevant(query_string))
             return "please don`t give me urls, ask me something else\n";
-        }
+
         String result = new String();
         result = "the results we found:\n";
         String[] sentences = NLP_processor.devide_to_sentences(query_string);
@@ -58,6 +56,9 @@ public class Chat_runner_production {
                 Object[] words_and_tags = NLP_processor.analyze_POS_sentence(sentence);
                 String[] words = (String[]) words_and_tags[0];
                 String[] tags = (String[]) words_and_tags[1];
+                if (no_noun_tags(tags))
+                    continue; // no important words in sentence ignore it
+
                 Object[] urls_and_word_list = Sphere_connection_manager.get_results_from_sphere(words, tags);
                 if (urls_and_word_list != null) {
                     ArrayList urls = (ArrayList) urls_and_word_list[0];
@@ -76,6 +77,15 @@ public class Chat_runner_production {
         }
 
         return result;
+    }
+    public static boolean no_noun_tags(String [] tags){
+        for (String tag : tags)
+        {
+            if (tag.indexOf("NN") > -1)
+                return false;
+        }
+        return true;
+
     }
     // checks if the query is even relevant
     public static boolean check_if_relevant(String query_string){

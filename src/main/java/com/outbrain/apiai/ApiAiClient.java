@@ -22,11 +22,7 @@ public class ApiAiClient {
   private static final String CLIENT_ACCESS_TOKEN = "60d062c7d68e4962a70bc0781f5502fb";
   private static final String DEVELOPER_ACCESS_TOKEN = "85936bbf6f4e48e3a3265ed4761b7a82";
 
-  /*  Roy's credentials
-    private static final String SUBSCRIPTION_KEY = "4e33ba43-1932-4fa1-9fa7-18297a3b23b4";
-    private static final String CLIENT_ACCESS_TOKEN = "1f4cd4d94a0a4548b6a909f4ccd52074";
-    private static final String DEVELOPER_ACCESS_TOKEN = "d5af30f3d4104f9781bb8650177460e1";
-  */
+
   private static final String baseUrl = "https://api.api.ai/v1/query?lang=en&v=20160314&q=";
   private final RestTemplate httpClient;
 

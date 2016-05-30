@@ -29,7 +29,6 @@ public class NLP_processor {
             // After the model is loaded the SentenceDetectorME can be instantiated.
             SentenceDetectorME sentenceDetector = new SentenceDetectorME(model);
             String sentences[] = sentenceDetector.sentDetect(query_string);
-            //System.out.println(sentences);
 
             return sentences;
         }
@@ -75,7 +74,7 @@ public class NLP_processor {
     public static Object[] analyze_POS_sentence(String question_string){
         String[] strings = question_string.split("\\W+|'\\w*");
         if(strings.length == 0) {
-            System.out.println("this sentence contains zero words");
+            System.out.println("this sentence contains zero words\n");
             return null;
         }
         strings = delete_words_from_dict(strings);
@@ -84,9 +83,7 @@ public class NLP_processor {
             POSModel model = new POSModel(modelIn);
             POSTaggerME tagger = new POSTaggerME(model);
             String tags[] = tagger.tag(strings);
-            /*for (int i = 0;i<tags.length; i++){
-                System.out.println(strings[i] + tags[i].toString());
-            }*/
+
             Object[] words_tags = create_important_words_array(strings,tags);
             return words_tags;
 
@@ -98,7 +95,7 @@ public class NLP_processor {
     // get the relevant noun words from the pos sentence
     // returns object containing 2 arrays
     public static Object[] create_important_words_array(String[] words , String[] tags){
-        //System.out.println(words.toString() + "hello\n");
+
         int index = 0;
         String ptrn = ".*NN.*|JJ.*|VB.*";
         Pattern ptrn_obj = Pattern.compile(ptrn);
@@ -106,7 +103,7 @@ public class NLP_processor {
             if (check_if_empty(words[i]))
                 continue;
             tags[i] += "_"+Integer.toString(i);
-            //System.out.println(tags[i]);
+
             Matcher m = ptrn_obj.matcher(tags[i]);
             if (m.find()){
                 index++;
@@ -122,8 +119,6 @@ public class NLP_processor {
                     continue;
                 final_words[index] = words[i];
                 final_tags[index] = tags[i];
-                //System.out.println(words[i]);
-                //System.out.println(tags[i]);
                 index++;
             }
         }
@@ -144,10 +139,8 @@ public class NLP_processor {
     }
     // sort the pos elements
     public static Object[] sort_arrays(String[] words ,String[] tags){
-        //System.out.println(tags.length);
         for (int i = 0 ; i < tags.length ; i++){
             for (int y = 0 ; y < tags.length ; y++){
-                //System.out.println("sort: " + tags[i] + "," + tags[y]);
 
                 if(get_value_of_tag(tags[i])<get_value_of_tag(tags[y]))
                 {
@@ -164,7 +157,6 @@ public class NLP_processor {
     }
     // get value for each tag to enable sort
     public static int get_value_of_tag(String tag) {
-        //System.out.println(tag);
         if (tag.indexOf("NNPS_") > -1) {
             return 1;
         }
